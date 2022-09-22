@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"net/http"
 	"strconv"
 
@@ -32,14 +33,15 @@ func (s *Server) reportHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Server) addReportHandler(w http.ResponseWriter, r *http.Request) {
-	certname := r.FormValue("certname")
-	environment := r.FormValue("environment")
-	status := r.FormValue("status")
-	time := r.FormValue("time")
-	transaction_uuid := r.FormValue("transaction_uuid")
-
-	err := s.DB.AddReport(certname, environment, status, time, transaction_uuid)
+	var req Report
+	err := json.NewDecoder(r.Body).Decode(&req)
 	if err != nil {
+		respondWithError(w, err)
+		return
+	}
+
+	req_err := s.DB.AddReport(req.Certname, req.Environment, req.Status, req.Time, req.TransactionUUID)
+	if req_err != nil {
 		respondWithError(w, err)
 		return
 	}
@@ -47,10 +49,14 @@ func (s *Server) addReportHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Server) removeReportHandler(w http.ResponseWriter, r *http.Request) {
-	transaction_uuid := r.FormValue("transaction_uuid")
-
-	err := s.DB.RemoveReport(transaction_uuid)
+	vars := mux.Vars(r)
+	r_ID, err := strconv.Atoi(vars["r_ID"])
 	if err != nil {
+		respondWithError(w, err)
+		return
+	}
+	del_err := s.DB.RemoveReport(r_ID)
+	if del_err != nil {
 		respondWithError(w, err)
 		return
 	}

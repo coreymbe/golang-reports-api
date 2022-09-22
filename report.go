@@ -1,12 +1,12 @@
 package main
 
 type Report struct {
+	ID              int    `json:"id"`
 	Certname        string `json:"certname"`
 	Environment     string `json:"environment"`
 	Status          string `json:"status"`
 	Time            string `json:"time"`
 	TransactionUUID string `json:"transaction_uuid"`
-	ID              int    `json:"id"`
 }
 
 func (d *database) GetAllReports() ([]*Report, error) {
@@ -18,7 +18,7 @@ func (d *database) GetAllReports() ([]*Report, error) {
 	var reports []*Report
 	for rows.Next() {
 		var r Report
-		err = rows.Scan(&r.Certname, &r.Environment, &r.Status, &r.Time, &r.TransactionUUID, &r.ID)
+		err = rows.Scan(&r.ID, &r.Certname, &r.Environment, &r.Status, &r.Time, &r.TransactionUUID)
 		if err != nil {
 			return nil, err
 		}
@@ -48,7 +48,7 @@ func (d *database) GetReport(r_ID int) (*Report, error) {
 
 	var r Report
 	for rows.Next() {
-		err = rows.Scan(&r.Certname, &r.Environment, &r.Status, &r.Time, &r.TransactionUUID, &r.ID)
+		err = rows.Scan(&r.ID, &r.Certname, &r.Environment, &r.Status, &r.Time, &r.TransactionUUID)
 		if err != nil {
 			return nil, err
 		}
@@ -60,8 +60,8 @@ func (d *database) GetReport(r_ID int) (*Report, error) {
 	return &r, nil
 }
 
-func (d *database) RemoveReport(transaction_uuid string) error {
-	_, err := d.db.Exec("DELETE FROM reports WHERE transaction_uuid = $1", transaction_uuid)
+func (d *database) RemoveReport(r_ID int) error {
+	_, err := d.db.Exec("DELETE FROM reports WHERE id = $1", r_ID)
 	if err != nil {
 		return err
 	}

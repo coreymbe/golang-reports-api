@@ -8,10 +8,10 @@ CREATE DATABASE puppet
 \c "puppet";
 
 CREATE TABLE reports (
-    certname character varying(40) NOT NULL,
-    environment character varying(40),
-    status character varying(40) NOT NULL,
-    "time" character varying(40),
-    transaction_uuid character varying(40) NOT NULL,
-    ID SERIAL PRIMARY KEY
+    ID SERIAL PRIMARY KEY,
+    certname varchar(40) NOT NULL,
+    environment varchar(40),
+    status varchar(40) NOT NULL,
+    time varchar(40),
+    transaction_uuid character varying(50) NOT NULL
 );

@@ -10,7 +10,7 @@ type Database interface {
 	GetAllReports() ([]*Report, error)
 	GetReport(r_ID int) (*Report, error)
 	AddReport(certname string, environment string, status string, time string, transaction_uuid string) error
-	RemoveReport(transaction_uuid string) error
+	RemoveReport(r_ID int) error
 }
 
 type database struct {
