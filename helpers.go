@@ -26,3 +26,7 @@ func logError(err error) {
 func logInfo(msg string, v interface{}) {
 	log.Println(fmt.Sprintf("[INFO] %s: %v", msg, v))
 }
+
+func logAuth(msg string) {
+	log.Println(fmt.Sprintf("[INFO] %v", msg))
+}

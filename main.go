@@ -43,6 +43,7 @@ func initServer(db Database) *Server {
 	server.Router.HandleFunc(reportRoute, server.reportHandler).Methods("GET")
 	server.Router.HandleFunc(addReportRoute, server.addReportHandler).Methods("POST")
 	server.Router.HandleFunc(removeReportRoute, server.removeReportHandler).Methods("POST")
+	server.Router.HandleFunc(authRoute, server.authHandler).Methods("POST")
 
 	return server
 }

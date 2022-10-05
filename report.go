@@ -41,7 +41,7 @@ func (d *database) AddReport(certname string, environment string, status string,
 }
 
 func (d *database) GetReport(r_ID int) (*Report, error) {
-	rows, err := d.db.Query("SELECT * FROM reports WHERE id=$1", r_ID)
+	rows, err := d.db.Query("SELECT * FROM reports WHERE ID=$1", r_ID)
 	if err != nil {
 		return nil, err
 	}
@@ -61,7 +61,7 @@ func (d *database) GetReport(r_ID int) (*Report, error) {
 }
 
 func (d *database) RemoveReport(r_ID int) error {
-	_, err := d.db.Exec("DELETE FROM reports WHERE id = $1", r_ID)
+	_, err := d.db.Exec("DELETE FROM reports WHERE ID = $1", r_ID)
 	if err != nil {
 		return err
 	}

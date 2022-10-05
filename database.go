@@ -11,6 +11,7 @@ type Database interface {
 	GetReport(r_ID int) (*Report, error)
 	AddReport(certname string, environment string, status string, time string, transaction_uuid string) error
 	RemoveReport(r_ID int) error
+	UserExists(r_name string, r_password string) (*User, error)
 }
 
 type database struct {

@@ -28,6 +28,12 @@ export dbUser=postgres
 export dbPass=<Database user password>
 ```
 
+To successfully generate and verify auth tokens for the API, you will need to set the `JWTSecretKey` environment variable with a random secure character string.
+
+```
+export JWTSecretKey=<Random character string>
+```
+
 ---
 
 ### Start the server:
@@ -38,10 +44,28 @@ export dbPass=<Database user password>
 
 ---
 
-### Create
+### Generate an Auth Token
 
 ```
 /bin/curl -X POST \
+-H "Content-Type: application/json" \
+-d '{"username":"admin","password":"ch@ngem3"}' \
+http://localhost:2754/auth
+```
+
+**Note**: By default the token is valid for **12** hours.
+
+---
+
+### Create
+
+```
+export JWToken=<Generated auth token>
+```
+
+```
+/bin/curl -X POST \
+-H "Authorization:Bearer ${JWToken}" \
 -H "Content-Type: application/json" \
 -d '{"certname":"example-hostname.puppet.com","environment":"production","status":"unchanged","time":"2022-09-25 19:30:00 UTC","transaction_uuid":"c8f1d280-21c6-4fd3-a28a-c150da1b0ecf"}' \
 http://localhost:2754/reports/add
@@ -64,5 +88,11 @@ Report by ID:
 ### DELETE
 
 ```
-/bin/curl -X POST http://localhost:2754/reports/remove/1
+export JWToken=<Generated auth token>
+```
+
+```
+/bin/curl -X POST \
+-H "Authorization:Bearer ${JWToken}" \
+http://localhost:2754/reports/remove/1
 ```

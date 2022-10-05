@@ -13,5 +13,12 @@ CREATE TABLE reports (
     environment varchar(40),
     status varchar(40) NOT NULL,
     time varchar(40),
-    transaction_uuid character varying(50) NOT NULL
+    transaction_uuid varchar(50) NOT NULL
 );
+
+CREATE TABLE users (
+    username varchar(40) NOT NULL,
+    password varchar(40) NOT NULL
+);
+
+INSERT INTO users (username, password) VALUES ('admin', 'ch@ngem3');
